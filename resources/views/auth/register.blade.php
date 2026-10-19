@@ -38,9 +38,16 @@
         </div>
 
         <div class="field">
-            <label for="department" class="field__label">Departemen <span class="text-muted-foreground font-normal">(opsional)</span></label>
-            <input type="text" id="department" name="department" value="{{ old('department') }}" class="input"
-                placeholder="IT Department" @error('department') aria-invalid="true" aria-describedby="department-error" @enderror>
+            <label for="department" class="field__label">Departemen <span class="text-danger-emphasis">*</span></label>
+            <select id="department" name="department" class="select" required
+                @error('department') aria-invalid="true" aria-describedby="department-error" @enderror>
+                <option value="">-- Pilih Departemen --</option>
+                @foreach(config('departments.list') as $department)
+                    <option value="{{ $department }}" {{ old('department') == $department ? 'selected' : '' }}>
+                        {{ $department }}
+                    </option>
+                @endforeach
+            </select>
             <x-form-error name="department" />
         </div>
 

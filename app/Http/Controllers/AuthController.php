@@ -43,7 +43,7 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'phone' => 'nullable|string|max:20',
-            'department' => 'nullable|string|max:100',
+            'department' => 'required|string|in:' . implode(',', config('departments.list')),
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
