@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" fill="none" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustrasi dekoratif IT Help Desk">
+  <defs>
+    <!-- Gradien garis sirkuit (ungu brand, transparan) -->
+    <linearGradient id="pTraceA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8b5cf6" stop-opacity="0.28" />
+      <stop offset="1" stop-color="#8b5cf6" stop-opacity="0.02" />
+    </linearGradient>
+    <linearGradient id="pTraceB" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6366f1" stop-opacity="0.22" />
+      <stop offset="1" stop-color="#6366f1" stop-opacity="0.02" />
+    </linearGradient>
+    <linearGradient id="pTraceC" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#a78bfa" stop-opacity="0.2" />
+      <stop offset="1" stop-color="#a78bfa" stop-opacity="0.02" />
+    </linearGradient>
+
+    <!-- Glow lembut -->
+    <radialGradient id="pGlowA" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#8b5cf6" stop-opacity="0.14" />
+      <stop offset="1" stop-color="#8b5cf6" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="pGlowB" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#6366f1" stop-opacity="0.12" />
+      <stop offset="1" stop-color="#6366f1" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Masker agar memudar ke tepi -->
+    <radialGradient id="pFade" cx="0.5" cy="0.5" r="0.72">
+      <stop offset="0" stop-color="#fff" stop-opacity="1" />
+      <stop offset="0.72" stop-color="#fff" stop-opacity="0.7" />
+      <stop offset="1" stop-color="#fff" stop-opacity="0" />
+    </radialGradient>
+    <mask id="pSoftEdge">
+      <rect width="800" height="1000" fill="url(#pFade)" />
+    </mask>
+  </defs>
+
+  <g mask="url(#pSoftEdge)">
+    <!-- Glow sudut -->
+    <ellipse cx="120" cy="140" rx="300" ry="300" fill="url(#pGlowA)" />
+    <ellipse cx="700" cy="880" rx="320" ry="320" fill="url(#pGlowB)" />
+
+    <!-- Jalur sirkuit halus -->
+    <g stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M-40 200 H140 a20 20 0 0 1 20 20 V360 a20 20 0 0 0 20 20 H320"
+        stroke="url(#pTraceA)" stroke-width="1.5" />
+      <path d="M840 300 H680 a20 20 0 0 0-20 20 V520 a20 20 0 0 1-20 20 H520"
+        stroke="url(#pTraceB)" stroke-width="1.5" />
+      <path d="M80 1000 V820 a20 20 0 0 1 20-20 H280 a20 20 0 0 0 20-20 V640"
+        stroke="url(#pTraceC)" stroke-width="1.5" />
+      <path d="M760 1000 V860 a20 20 0 0 0-20-20 H560 a20 20 0 0 1-20-20 V700"
+        stroke="url(#pTraceA)" stroke-width="1.5" />
+      <path d="M-40 560 H100 a20 20 0 0 0 20-20 V400"
+        stroke="url(#pTraceB)" stroke-width="1.5" />
+      <path d="M840 80 H720 a20 20 0 0 0-20 20 V240 a20 20 0 0 1-20 20 H600"
+        stroke="url(#pTraceC)" stroke-width="1.5" />
+    </g>
+
+    <!-- Node koneksi -->
+    <g fill="#8b5cf6">
+      <circle cx="140" cy="200" r="4" fill-opacity="0.4" />
+      <circle cx="320" cy="380" r="4.5" fill-opacity="0.35" />
+      <circle cx="680" cy="300" r="4" fill-opacity="0.32" />
+      <circle cx="520" cy="540" r="4.5" fill-opacity="0.3" />
+      <circle cx="300" cy="800" r="4" fill-opacity="0.28" />
+      <circle cx="560" cy="840" r="4" fill-opacity="0.26" />
+      <circle cx="120" cy="540" r="4" fill-opacity="0.26" />
+      <circle cx="600" cy="260" r="4" fill-opacity="0.24" />
+    </g>
+
+    <!-- Partikel halus -->
+    <g fill="#a78bfa">
+      <circle cx="240" cy="120" r="2" fill-opacity="0.3" />
+      <circle cx="460" cy="220" r="1.8" fill-opacity="0.26" />
+      <circle cx="180" cy="440" r="2" fill-opacity="0.24" />
+      <circle cx="640" cy="480" r="1.8" fill-opacity="0.22" />
+      <circle cx="380" cy="620" r="2" fill-opacity="0.2" />
+      <circle cx="700" cy="660" r="1.8" fill-opacity="0.18" />
+      <circle cx="160" cy="900" r="2" fill-opacity="0.18" />
+      <circle cx="480" cy="920" r="1.8" fill-opacity="0.16" />
+    </g>
+
+    <!-- Cincin aksen tipis -->
+    <g fill="none" stroke="#8b5cf6" stroke-opacity="0.1">
+      <circle cx="120" cy="140" r="120" stroke-width="1" />
+      <circle cx="700" cy="880" r="140" stroke-width="1" />
+    </g>
+  </g>
+</svg>

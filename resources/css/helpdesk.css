@@ -312,6 +312,11 @@ a.stat-card:hover {
   align-items: center;
   justify-content: center;
   padding: --spacing(6);
+  /* Ilustrasi dekoratif transparan agar sisi form tidak kosong. */
+  background-image: url("/images/auth-panel-illustration.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 .auth__toggle {
   position: absolute;
