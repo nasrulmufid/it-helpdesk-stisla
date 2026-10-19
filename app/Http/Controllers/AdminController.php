@@ -30,7 +30,7 @@ class AdminController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|in:admin,technician,user,general_manager',
             'phone' => 'nullable|string|max:20',
-            'department' => 'nullable|string|max:100',
+            'department' => 'required|string|in:' . implode(',', config('departments.list')),
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
@@ -53,7 +53,7 @@ class AdminController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'role' => 'required|in:admin,technician,user,general_manager',
             'phone' => 'nullable|string|max:20',
-            'department' => 'nullable|string|max:100',
+            'department' => 'required|string|in:' . implode(',', config('departments.list')),
         ]);
 
         if ($request->filled('password')) {

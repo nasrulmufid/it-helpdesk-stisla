@@ -28,6 +28,20 @@
                         <x-form-error name="email" />
                     </div>
 
+                    <div class="field">
+                        <label for="department" class="field__label">Departemen <span class="text-danger-emphasis">*</span></label>
+                        <select name="department" id="department" class="select" required
+                            @error('department') aria-invalid="true" aria-describedby="department-error" @enderror>
+                            <option value="">-- Pilih Departemen --</option>
+                            @foreach(config('departments.list') as $department)
+                                <option value="{{ $department }}" {{ old('department') == $department ? 'selected' : '' }}>
+                                    {{ $department }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <x-form-error name="department" />
+                    </div>
+
                     <div class="grid gap-5 sm:grid-cols-2">
                         <div class="field">
                             <label for="password" class="field__label">Password <span class="text-danger-emphasis">*</span></label>

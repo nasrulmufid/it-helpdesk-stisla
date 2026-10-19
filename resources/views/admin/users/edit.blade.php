@@ -37,6 +37,20 @@
                         <x-form-error name="email" />
                     </div>
 
+                    <div class="field">
+                        <label for="department" class="field__label">Departemen <span class="text-danger-emphasis">*</span></label>
+                        <select name="department" id="department" class="select" required
+                            @error('department') aria-invalid="true" aria-describedby="department-error" @enderror>
+                            <option value="">-- Pilih Departemen --</option>
+                            @foreach(config('departments.list') as $department)
+                                <option value="{{ $department }}" {{ old('department', $user->department) == $department ? 'selected' : '' }}>
+                                    {{ $department }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <x-form-error name="department" />
+                    </div>
+
                     <div class="alert alert--neutral">
                         <x-icon name="lock" />
                         <div class="alert__title">Ubah Password (Opsional)</div>
