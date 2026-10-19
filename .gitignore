@@ -26,3 +26,6 @@ yarn-error.log
 /backups
 node_modules
 vendor
+
+# Jangan abaikan view yang di-override (mis. resources/views/vendor/pagination)
+!/resources/views/vendor/
