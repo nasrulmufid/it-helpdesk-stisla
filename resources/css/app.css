@@ -1,0 +1,28 @@
+@import "tailwindcss";
+@import "@stisla/style/theme.css";
+
+/*
+ * Tema brand IT Help Desk (ungu/violet) — cukup override token, bukan CSS komponen.
+ * Setiap token fill punya pasangan -foreground; -emphasis dipakai untuk teks/ikon di atas
+ * permukaan ber-tint supaya kontras tetap aman (di dark mode dibuat lebih terang).
+ */
+@theme {
+  --color-primary: oklch(0.58 0.22 285);
+  --color-primary-foreground: oklch(1 0 0);
+  --color-primary-emphasis: oklch(0.5 0.22 285);
+}
+
+:root {
+  @variant dark {
+    --color-primary-emphasis: oklch(0.72 0.17 285);
+  }
+}
+
+@import "@stisla/style/components.css";
+
+/* Style khusus aplikasi (shell, auth, stat card, dll). */
+@import "./helpdesk.css";
+
+/* Beri tahu Tailwind di mana markup berada supaya utility yang dipakai ikut di-generate. */
+@source "../views/**/*.blade.php";
+@source "../js/**/*.js";
