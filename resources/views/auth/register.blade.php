@@ -16,7 +16,7 @@
 
         <div class="field">
             <label for="name" class="field__label">Nama Lengkap</label>
-            <input type="text" id="name" name="name" value="{{ old('name') }}" class="input" placeholder="John Doe"
+            <input type="text" id="name" name="name" value="{{ old('name') }}" class="input" placeholder="Budi Utomo"
                 autocomplete="name" required autofocus
                 @error('name') aria-invalid="true" aria-describedby="name-error" @enderror>
             <x-form-error name="name" />
