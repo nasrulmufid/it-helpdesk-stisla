@@ -334,12 +334,42 @@ a.stat-card:hover {
   margin: --spacing(2);
   padding: --spacing(10);
   border-radius: var(--radius-2xl);
-  background: linear-gradient(
-    160deg,
-    color-mix(in oklch, var(--color-primary) 35%, oklch(0.16 0.03 285)) 0%,
-    oklch(0.13 0.025 285) 60%
-  );
+  position: relative;
+  overflow: hidden;
+  background-color: oklch(0.13 0.025 285);
+  /* Ilustrasi jaringan menyatu dengan gradient ungu (blend + posisi kanan-atas). */
+  background-image:
+    url("/images/auth-illustration.svg"),
+    linear-gradient(
+      160deg,
+      color-mix(in oklch, var(--color-primary) 35%, oklch(0.16 0.03 285)) 0%,
+      oklch(0.13 0.025 285) 60%
+    );
+  background-repeat: no-repeat, no-repeat;
+  background-position: right -6% top -4%, center;
+  background-size: 130% auto, cover;
+  background-blend-mode: screen, normal;
   color: oklch(1 0 0);
+
+  /* Overlay gelap tipis agar teks tetap terbaca di atas ilustrasi. */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      oklch(0.13 0.025 285 / 0) 0%,
+      oklch(0.13 0.025 285 / 0.35) 55%,
+      oklch(0.13 0.025 285 / 0.85) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Konten di atas overlay. */
+  > * {
+    position: relative;
+    z-index: 1;
+  }
 
   @variant lg {
     display: flex;
