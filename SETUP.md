@@ -143,7 +143,21 @@ Aplikasi akan berjalan di: **http://localhost:8000**
   dan 110M).
 - Restart `php artisan serve` setelah mengubah konfigurasi PHP agar batas upload
   diterapkan.
-- Docker sudah mengatur batas upload PHP tersendiri di Dockerfile.
+- Untuk VPS non-Docker, cek konfigurasi dari PHP web (PHP-FPM/Apache), bukan
+  hanya `php -i` di terminal. Dengan batas aplikasi 5 MB per file, gunakan
+  `upload_max_filesize = 12M`, `post_max_size` yang cukup untuk semua lampiran
+  dalam satu request, dan `memory_limit` minimal `128M`; restart PHP-FPM/Apache
+  setelah perubahan. Toast error menampilkan nilai upload PHP aktif untuk kode
+  ukuran, dan detail kode serta batas aktif juga dicatat di
+  `storage/logs/laravel.log`.
+- Konfigurasi PHP produksi Docker ada di `docker/php/uploads.ini`. Setelah
+  memperbarui aplikasi, rebuild dan recreate container app agar konfigurasi
+  diterapkan: `docker compose up -d --build --force-recreate app`.
+- Verifikasi nilai di container dengan
+  `docker compose exec app php -i | grep -E 'upload_max_filesize|post_max_size'`;
+  hasilnya harus menunjukkan 10M dan 110M. Jika nilainya sudah benar tetapi
+  upload tetap gagal, periksa batas request body pada reverse proxy/CDN di depan
+  aplikasi (misalnya `client_max_body_size` pada Nginx) dan log PHP/Apache.
 
 ## Fitur Aplikasi
 
