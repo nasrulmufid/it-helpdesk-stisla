@@ -126,6 +126,11 @@ Aplikasi akan berjalan di: **http://localhost:8000**
 - Pastikan folder storage dan bootstrap/cache writable
 - Jalankan: `php artisan config:clear` dan `php artisan cache:clear`
 
+### Lampiran gagal diunggah
+- Untuk server PHP lokal, pastikan `upload_max_filesize` lebih besar dari 5M dan `post_max_size` cukup besar untuk total ukuran seluruh lampiran (misalnya 10M dan 110M).
+- Restart `php artisan serve` setelah mengubah konfigurasi PHP agar batas upload diterapkan.
+- Docker sudah mengatur batas upload PHP tersendiri di Dockerfile.
+
 ## Fitur Aplikasi
 
 ### User (Pengguna Biasa)
