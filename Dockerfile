@@ -64,10 +64,8 @@ RUN chown -R www-data:www-data /var/www/html \
 RUN mkdir -p /var/www/html/storage/logs /var/www/html/storage/framework/{cache,sessions,views} /var/www/html/bootstrap/cache
 
 # Configure PHP settings for production
-RUN echo "upload_max_filesize = 100M" >> /usr/local/etc/php/conf.d/uploads.ini \
-    && echo "post_max_size = 100M" >> /usr/local/etc/php/conf.d/uploads.ini \
-    && echo "max_execution_time = 300" >> /usr/local/etc/php/conf.d/uploads.ini \
-    && echo "memory_limit = 256M" >> /usr/local/etc/php/conf.d/memory.ini \
+COPY docker/php/uploads.ini /usr/local/etc/php/conf.d/zz-uploads.ini
+RUN echo "memory_limit = 256M" >> /usr/local/etc/php/conf.d/memory.ini \
     && echo "max_input_vars = 3000" >> /usr/local/etc/php/conf.d/custom.ini
 
 # Copy Apache configuration

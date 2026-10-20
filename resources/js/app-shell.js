@@ -28,6 +28,14 @@ function setVisible(shell, next) {
 }
 
 document.addEventListener("click", (e) => {
+  const dismissToast = e.target.closest("[data-toast-dismiss]");
+  if (dismissToast) {
+    const toast = dismissToast.closest(".toast");
+    toast?.classList.add("is-dismissing");
+    window.setTimeout(() => toast?.remove(), 160);
+    return;
+  }
+
   const trigger = e.target.closest(TOGGLE);
   if (trigger) {
     const shell = trigger.closest(SHELL);

@@ -446,3 +446,54 @@ a.stat-card:hover {
   border-radius: var(--radius-lg);
   background: --alpha(var(--color-warning) / 10%);
 }
+
+/* Flash feedback as dismissible toasts, outside the clipped page content. */
+.toast-stack {
+  position: fixed;
+  inset-block-start: 1rem;
+  inset-inline-end: 1rem;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: min(30rem, calc(100vw - 2rem));
+  pointer-events: none;
+}
+.toast-stack .toast {
+  position: relative;
+  padding-inline-end: 3rem;
+  box-shadow: var(--shadow-lg);
+  pointer-events: auto;
+  animation: toast-enter 180ms ease-out both;
+}
+.toast__dismiss {
+  position: absolute;
+  inset-block-start: 0.6rem;
+  inset-inline-end: 0.7rem;
+  display: inline-grid;
+  width: 1.75rem;
+  height: 1.75rem;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  color: var(--color-muted-foreground);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.toast__dismiss:hover {
+  background: --alpha(var(--color-foreground) / 8%);
+  color: var(--color-foreground);
+}
+.toast.is-dismissing {
+  opacity: 0;
+  transform: translateX(0.75rem);
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+@keyframes toast-enter {
+  from { opacity: 0; transform: translateY(-0.5rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .toast-stack .toast { animation: none; }
+  .toast.is-dismissing { transition: none; }
+}

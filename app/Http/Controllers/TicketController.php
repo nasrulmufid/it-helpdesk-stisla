@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Ticket;
 use App\Models\Category;
+use App\Models\Ticket;
 use App\Models\TicketResponse;
 use App\Models\User;
 use App\Notifications\TicketActivityNotification;
+use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 
 class TicketController extends Controller
@@ -36,7 +38,7 @@ class TicketController extends Controller
             $query->where('user_id', $user->id);
         } elseif ($user->isTechnician()) {
             // If no specific filter, show assigned or unassigned tickets
-            if (!$request->has('assigned_to')) {
+            if (! $request->has('assigned_to')) {
                 $query->where(function ($q) use ($user) {
                     $q->where('assigned_to', $user->id)
                         ->orWhereNull('assigned_to');
@@ -52,17 +54,48 @@ class TicketController extends Controller
     public function create()
     {
         $categories = Category::active()->get();
+
         return view('tickets.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
+        foreach ((array) $request->file('attachments', []) as $index => $file) {
+            if (! $file instanceof UploadedFile || $file->getError() === UPLOAD_ERR_NO_FILE) {
+                continue;
+            }
+
+            if (! $file->isValid()) {
+                $errorCode = $file->getError();
+                $message = $this->attachmentUploadErrorMessage($errorCode);
+
+                if (in_array($errorCode, [UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE], true)) {
+                    $message .= ' Nilai PHP aktif pada request ini: upload_max_filesize='.ini_get('upload_max_filesize')
+                        .', post_max_size='.ini_get('post_max_size').'.';
+                }
+
+                Log::warning('Ticket attachment upload rejected by PHP.', [
+                    'attachment_index' => $index,
+                    'upload_error_code' => $errorCode,
+                    'upload_max_filesize' => ini_get('upload_max_filesize'),
+                    'post_max_size' => ini_get('post_max_size'),
+                    'content_length' => $request->server('CONTENT_LENGTH'),
+                ]);
+
+                return back()
+                    ->withInput($request->except('attachments'))
+                    ->with('error', 'Lampiran ke-'.($index + 1).' gagal diunggah. '.$message);
+            }
+        }
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'category_id' => 'required|exists:categories,id',
             'priority' => 'required|in:low,medium,high,critical',
             'attachments.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx,zip|max:5120', // Max 5MB per file
+        ], [
+            'attachments.*.uploaded' => 'PHP gagal menerima lampiran. Pastikan upload_max_filesize minimal 6M, post_max_size lebih besar dari total request, direktori temporary PHP writable, dan batas request pada proxy/CDN mencukupi. Periksa log PHP-FPM/Apache untuk detail.',
         ]);
 
         $validated['user_id'] = auth()->id();
@@ -97,6 +130,18 @@ class TicketController extends Controller
 
         return redirect()->route('tickets.show', $ticket)
             ->with('success', 'Tiket berhasil dibuat!');
+    }
+
+    private function attachmentUploadErrorMessage(int $errorCode): string
+    {
+        return match ($errorCode) {
+            UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE => 'Server menolak ukuran file sebelum validasi Laravel. Pastikan php.ini yang dipakai PHP-FPM/Apache menetapkan upload_max_filesize minimal 6M dan post_max_size lebih besar dari total request, lalu restart PHP-FPM/Apache. Periksa juga batas body pada reverse proxy/CDN.',
+            UPLOAD_ERR_PARTIAL => 'Upload terputus sebelum selesai. Coba unggah ulang dengan koneksi yang stabil.',
+            UPLOAD_ERR_NO_TMP_DIR => 'Direktori sementara upload PHP tidak tersedia. Periksa upload_tmp_dir dan pastikan direktori tersebut ada serta dapat ditulis oleh pengguna web server.',
+            UPLOAD_ERR_CANT_WRITE => 'PHP tidak dapat menulis file sementara. Periksa ruang disk dan permission direktori sementara PHP.',
+            UPLOAD_ERR_EXTENSION => 'Upload dihentikan oleh ekstensi PHP. Periksa konfigurasi ekstensi dan log PHP-FPM/Apache.',
+            default => 'PHP gagal menerima file (kode upload '.$errorCode.'). Periksa konfigurasi upload PHP dan log PHP-FPM/Apache.',
+        };
     }
 
     public function show(Ticket $ticket)
@@ -180,7 +225,7 @@ class TicketController extends Controller
         $validated['ticket_id'] = $ticket->id;
 
         // Only technicians and admins can add internal notes
-        if (!auth()->user()->isAdmin() && !auth()->user()->isTechnician()) {
+        if (! auth()->user()->isAdmin() && ! auth()->user()->isTechnician()) {
             $validated['is_internal'] = false;
         }
 
@@ -217,7 +262,7 @@ class TicketController extends Controller
     {
         $user = auth()->user();
 
-        if (!$user->isAdmin() && !$user->isTechnician()) {
+        if (! $user->isAdmin() && ! $user->isTechnician()) {
             abort(403, 'Unauthorized');
         }
 
@@ -248,7 +293,7 @@ class TicketController extends Controller
     {
         $user = auth()->user();
 
-        if (!$user->isTechnician() && !$user->isAdmin()) {
+        if (! $user->isTechnician() && ! $user->isAdmin()) {
             abort(403, 'Unauthorized');
         }
 

@@ -6,6 +6,8 @@
 </head>
 
 <body>
+    @include('layouts.partials.flash')
+
     <div class="app-shell" data-stisla-app-shell>
         @include('layouts.partials.sidebar')
 
@@ -14,8 +16,6 @@
 
             <div class="page content">
                 <div class="content__container">
-                    @include('layouts.partials.flash')
-
                     @yield('content')
                 </div>
             </div>
