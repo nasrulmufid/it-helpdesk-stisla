@@ -13,7 +13,8 @@ npm install
 
 ### 2. Setup Database
 
-Aplikasi ini menggunakan **SQLite** yang tidak memerlukan setup database terpisah. File database akan otomatis dibuat pada saat migrasi.
+Aplikasi ini menggunakan **SQLite** yang tidak memerlukan setup database
+terpisah. File database akan otomatis dibuat pada saat migrasi.
 
 ### 3. Konfigurasi Environment
 
@@ -48,6 +49,7 @@ php artisan migrate --seed
 ```
 
 Perintah ini akan:
+
 - Membuat file database SQLite (`database.sqlite`)
 - Membuat semua tabel yang diperlukan
 - Mengisi data awal (users dan categories)
@@ -88,16 +90,19 @@ Aplikasi akan berjalan di: **http://localhost:8000**
 ## Akun Login Default
 
 ### Admin
+
 - Email: `admin@helpdesk.com`
 - Password: `password`
 - Akses: Full access ke semua fitur
 
 ### Teknisi
+
 - Email: `tech1@helpdesk.com` atau `tech2@helpdesk.com`
 - Password: `password`
 - Akses: Dapat mengelola tiket yang ditugaskan
 
 ### User
+
 - Email: `user@helpdesk.com`
 - Password: `password`
 - Akses: Dapat membuat dan melihat tiket sendiri
@@ -105,64 +110,67 @@ Aplikasi akan berjalan di: **http://localhost:8000**
 ## Troubleshooting
 
 ### Error: Database file not found
+
 - File `database.sqlite` akan dibuat otomatis saat migrasi pertama kali
 - Pastikan folder `database/` memiliki write permission
 - Jalankan: `php artisan migrate --seed`
 
 ### Error: Class not found
+
 - Jalankan: `composer dump-autoload`
 - Jalankan: `php artisan config:clear`
 
 ### Error: npm command not found
+
 - Install Node.js 20+ dari https://nodejs.org/
 - Restart terminal setelah instalasi
 
 ### Assets tidak muncul
+
 - Jalankan: `npm run build`
 - Clear browser cache
 
 ### Error 500 Internal Server Error
+
 - Cek file `storage/logs/laravel.log` untuk detail error
 - Pastikan folder storage dan bootstrap/cache writable
 - Jalankan: `php artisan config:clear` dan `php artisan cache:clear`
 
 ### Lampiran gagal diunggah
-- Untuk server PHP lokal, pastikan `upload_max_filesize` lebih besar dari 5M dan `post_max_size` cukup besar untuk total ukuran seluruh lampiran (misalnya 10M dan 110M).
-- Restart `php artisan serve` setelah mengubah konfigurasi PHP agar batas upload diterapkan.
+
+- Untuk server PHP lokal, pastikan `upload_max_filesize` lebih besar dari 5M dan
+  `post_max_size` cukup besar untuk total ukuran seluruh lampiran (misalnya 10M
+  dan 110M).
+- Restart `php artisan serve` setelah mengubah konfigurasi PHP agar batas upload
+  diterapkan.
 - Docker sudah mengatur batas upload PHP tersendiri di Dockerfile.
 
 ## Fitur Aplikasi
 
 ### User (Pengguna Biasa)
-✅ Registrasi akun baru
-✅ Login/Logout
-✅ Lihat dashboard pribadi
-✅ Buat tiket baru
-✅ Lihat daftar tiket sendiri
-✅ Lihat detail tiket
-✅ Tambah response/tanggapan pada tiket
+
+✅ Registrasi akun baru ✅ Login/Logout ✅ Lihat dashboard pribadi ✅ Buat tiket
+baru ✅ Lihat daftar tiket sendiri ✅ Lihat detail tiket ✅ Tambah
+response/tanggapan pada tiket
 
 ### Technician (Teknisi)
-✅ Semua fitur User
-✅ Lihat semua tiket yang belum ditugaskan
-✅ Ambil tiket (assign to self)
-✅ Update status tiket (open, in progress, resolved, closed)
-✅ Update prioritas tiket
-✅ Tambah catatan internal (tidak terlihat user)
+
+✅ Semua fitur User ✅ Lihat semua tiket yang belum ditugaskan ✅ Ambil tiket
+(assign to self) ✅ Update status tiket (open, in progress, resolved, closed) ✅
+Update prioritas tiket ✅ Tambah catatan internal (tidak terlihat user)
 
 ### Admin (Administrator)
-✅ Semua fitur Technician
-✅ Lihat statistik lengkap sistem
-✅ Kelola pengguna (tambah, edit, hapus)
-✅ Kelola kategori tiket
-✅ Tugaskan tiket ke teknisi tertentu
-✅ Akses ke semua tiket
+
+✅ Semua fitur Technician ✅ Lihat statistik lengkap sistem ✅ Kelola pengguna
+(tambah, edit, hapus) ✅ Kelola kategori tiket ✅ Tugaskan tiket ke teknisi
+tertentu ✅ Akses ke semua tiket
 
 ## Struktur Database
 
 File database SQLite disimpan di: `database/database.sqlite`
 
 ### Tables
+
 - `users` - Data pengguna (admin, technician, user)
 - `categories` - Kategori tiket (Hardware, Software, Network, dll)
 - `tickets` - Data tiket
@@ -175,6 +183,7 @@ File database SQLite disimpan di: `database/database.sqlite`
 ## Kategori Default
 
 Setelah seeding, kategori berikut akan tersedia:
+
 - 💻 Hardware - Masalah perangkat keras
 - 📱 Software - Masalah aplikasi/software
 - 🌐 Network - Masalah jaringan/internet
@@ -188,7 +197,8 @@ Setelah seeding, kategori berikut akan tersedia:
 
 1. **User** membuat tiket baru dengan kategori dan prioritas
 2. Tiket berstatus "Open" dan belum ditugaskan
-3. **Teknisi** atau **Admin** dapat mengambil tiket atau Admin menugaskan ke teknisi tertentu
+3. **Teknisi** atau **Admin** dapat mengambil tiket atau Admin menugaskan ke
+   teknisi tertentu
 4. **Teknisi** mengubah status menjadi "In Progress" dan mulai menangani
 5. **Teknisi** dan **User** dapat berkomunikasi melalui responses
 6. Setelah selesai, **Teknisi** mengubah status menjadi "Resolved"
@@ -240,6 +250,7 @@ php artisan tinker
 ## Support
 
 Jika ada pertanyaan atau masalah:
+
 1. Cek file `storage/logs/laravel.log` untuk error details
 2. Pastikan semua requirement terpenuhi
 3. Ikuti troubleshooting guide di atas
